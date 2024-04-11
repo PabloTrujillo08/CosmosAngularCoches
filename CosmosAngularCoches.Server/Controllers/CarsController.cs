@@ -45,7 +45,7 @@ namespace CosmosAngularCoches.Server.Controllers
             return NoContent();
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{id}/{make}")]
         public async Task<IActionResult> Delete(string id, string make)
         {
             await _carsService.DeleteCarAsync(id, make);

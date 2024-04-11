@@ -40,10 +40,7 @@ export class AppComponent implements OnInit {
     this.selectedItem = { ...item };
   }
 
-  delete(id: number, data: any) {
-    console.log(id, "id")
-    console.log(data, "data")
-    return
+  delete(id: string, data: any) {
     this.carService.delete(id, data).subscribe({
       next: () => {
         this.items = this.items.filter(item => item.id !== id);
