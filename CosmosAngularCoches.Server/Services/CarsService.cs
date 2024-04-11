@@ -1,7 +1,9 @@
 ﻿using CosmosAngularCoches.Server.Interface;
 using CosmosAngularCoches.Server.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Azure.Cosmos;
 using System.ComponentModel;
+using System.Xml.Linq;
 
 namespace CosmosAngularCoches.Server.Services
 {
@@ -17,29 +19,44 @@ namespace CosmosAngularCoches.Server.Services
         }
 
 
-        public Task<Cars> AddCarAsync(Cars car)
+        public async Task AddCarAsync(Cars car)
         {
-            throw new NotImplementedException();
+            await _container.CreateItemAsync(car, new PartitionKey(car.Id));
         }
 
-        public Task DeleteCarAsync(string id)
+        public async Task DeleteCarAsync(string id)
         {
-            throw new NotImplementedException();
+            await _container.DeleteItemAsync<Cars>(id, new PartitionKey(id));
         }
 
-        public Task<Cars> GetCarAsync(string id)
+        public async Task<Cars> GetCarAsync(string id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var response = await _container.ReadItemAsync<Cars>(id, new PartitionKey(id));
+                return response.Resource;
+            }
+            catch (CosmosException ex) when (ex.StatusCode == System.Net.HttpStatusCode.NotFound)
+            {
+                return null!;
+            }
         }
 
-        public Task<IEnumerable<Cars>> GetCarsAsync(string query)
+        public async Task<IEnumerable<Cars>> GetMultipleCarsAsync(string queryString)
         {
-            throw new NotImplementedException();
+            var query = _container.GetItemQueryIterator<Cars>(new QueryDefinition(queryString));
+            var results = new List<Cars>();
+            while (query.HasMoreResults)
+            {
+                var response = await query.ReadNextAsync();
+                results.AddRange(response.ToList());
+            }
+            return results;
         }
 
-        public Task<Cars> UpdateCarAsync(Cars car)
+        public async Task UpdateCarAsync(string id, Cars car)
         {
-            throw new NotImplementedException();
+            await _container.UpsertItemAsync(car, new PartitionKey(id));
         }
     }
 }

@@ -4,10 +4,10 @@ namespace CosmosAngularCoches.Server.Interface
 {
     public interface ICarsService
     {
-        Task<IEnumerable<Cars>> GetCarsAsync(string query);
+        Task<IEnumerable<Cars>> GetMultipleCarsAsync(string query);
         Task<Cars> GetCarAsync(string id);
-        Task<Cars> AddCarAsync(Cars car);
-        Task<Cars> UpdateCarAsync(Cars car);
+        Task AddCarAsync(Cars car);
+        Task UpdateCarAsync(string id, Cars car);
         Task DeleteCarAsync(string id);
     }
 }
