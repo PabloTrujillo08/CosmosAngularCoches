@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 
@@ -8,16 +8,18 @@ import { Observable } from 'rxjs';
 })
 export class CarsService {
 
-  private baseUrl = 'api';
+
+
+  private baseUrl = 'api/Cars/';
 
   constructor(private http: HttpClient) { }
 
   getAll(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.baseUrl}/Cars`);
+    return this.http.get<any[]>(`${this.baseUrl}`);
   }
 
   get(id: number): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/Cars/${id}/ford`);
+    return this.http.get<any>(`${this.baseUrl}${id}/ford`);
   }
 
   create(data: any): Observable<any> {
@@ -25,11 +27,18 @@ export class CarsService {
   }
 
   update(id: number, data: any): Observable<any> {
-    return this.http.put(`${this.baseUrl}/${id}`, data);
+    return this.http.put(`${this.baseUrl}${id}`, data);
   }
 
-  delete(id: number): Observable<any> {
-    return this.http.delete(`${this.baseUrl}/${id}`);
+  delete(id: number, data: any): Observable<any> {
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      }),
+      body: data
+    };
+
+    return this.http.delete(`${this.baseUrl}${id}{data}`);
   }
 
 }

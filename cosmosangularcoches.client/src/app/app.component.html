@@ -6,36 +6,36 @@
       <table class="table">
         <thead>
           <tr>
-            <th>ID</th>
-            <th>Nombre</th>
-            <th>Acciones</th>
+            <th>Guid</th>
+            <th>Make</th>
+            <th>Model</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let item of items; trackBy: trackById">
             <td>{{ item.id }}</td>
-            <td>{{ item.name }}</td>
+            <td>{{ item.make }}</td>
+            <td>{{ item.model }}</td>
             <td>
-              <button class="btn btn-info" (click)="edit(item)">Editar</button>
-              <button class="btn btn-danger" (click)="delete(item.id)">Eliminar</button>
+              <button class="btn btn-info " (click)="edit(item)">Editar</button>
+              <button class="btn btn-danger" (click)="delete(item.id, item.make)">Eliminar</button>
             </td>
           </tr>
           <tr *ngIf="items.length === 0">
-            <td colspan="3">No se encontraron datos.</td>
+            <td colspan="3">Not Found Data.</td>
           </tr>
         </tbody>
       </table>
     </div>
   </div>
-
-  <!-- Edit/Create Form -->
   <div *ngIf="selectedItem" class="row">
     <div class="col-md-12">
-      <h2>Editar Elemento</h2>
+      <h2>Edit</h2>
       <form>
         <div class="mb-3">
           <label for="name" class="form-label">Nombre</label>
-          <input type="text" class="form-control" id="name" [(ngModel)]="selectedItem.name" name="itemName">
+          <input type="text" class="form-control" id="name" [(ngModel)]="selectedItem.model" name="itemName">
         </div>
         <button class="btn btn-success" (click)="save()">Guardar</button>
         <button class="btn btn-secondary" (click)="cancel()">Cancelar</button>

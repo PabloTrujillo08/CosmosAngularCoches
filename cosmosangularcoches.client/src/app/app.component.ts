@@ -32,17 +32,21 @@ export class AppComponent implements OnInit {
   }
 
   createNew() {
-    this.selectedItem = {}; // Crea un objeto vacío para un nuevo item
+    this.selectedItem = {};
   }
 
   edit(item: any) {
-    this.selectedItem = { ...item }; // Copia el item para editar
+    console.log(item, "item")
+    this.selectedItem = { ...item };
   }
 
-  delete(id: number) {
-    this.carService.delete(id).subscribe({
+  delete(id: number, data: any) {
+    console.log(id, "id")
+    console.log(data, "data")
+    return
+    this.carService.delete(id, data).subscribe({
       next: () => {
-        this.items = this.items.filter(item => item.id !== id); // Actualiza la vista inmediatamente
+        this.items = this.items.filter(item => item.id !== id);
       },
       error: (e) => console.error(e)
     });
@@ -50,13 +54,15 @@ export class AppComponent implements OnInit {
 
   save() {
     if (this.selectedItem.id) {
+
+      console.log(this.selectedItem, "selectedItem")
       this.carService.update(this.selectedItem.id, this.selectedItem).subscribe({
         next: () => {
           const index = this.items.findIndex(item => item.id === this.selectedItem.id);
           if (index !== -1) {
             this.items[index] = this.selectedItem;
           }
-          this.selectedItem = null; // Desmarca el item seleccionado después de guardar
+          this.selectedItem = null;
         },
         error: (e) => console.error(e)
       });
@@ -64,7 +70,7 @@ export class AppComponent implements OnInit {
       this.carService.create(this.selectedItem).subscribe({
         next: (newItem) => {
           this.items.push(newItem);
-          this.selectedItem = null; // Desmarca el item seleccionado después de guardar
+          this.selectedItem = null;
         },
         error: (e) => console.error(e)
       });
@@ -72,7 +78,7 @@ export class AppComponent implements OnInit {
   }
 
   cancel() {
-    this.selectedItem = null; // Desmarca el item seleccionado al cancelar
+    this.selectedItem = null;
   }
 
   trackById(index: number, item: any): any {
