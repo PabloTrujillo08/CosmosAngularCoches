@@ -25,7 +25,6 @@ export class AppComponent implements OnInit {
     this.carService.getAll().subscribe({
       next: (data) => {
         this.items = data;
-        console.log(data, "data")
       },
       error: (e) => console.error(e)
     });
@@ -36,7 +35,6 @@ export class AppComponent implements OnInit {
   }
 
   edit(item: any) {
-    console.log(item, "item")
     this.selectedItem = { ...item };
   }
 
@@ -78,9 +76,6 @@ export class AppComponent implements OnInit {
     this.selectedItem = null;
   }
 
-  trackById(index: number, item: any): any {
-    return item.id;
-  }
 
   title = 'angularapicarscosmosdb.client';
 }
