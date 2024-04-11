@@ -21,19 +21,19 @@ namespace CosmosAngularCoches.Server.Services
 
         public async Task AddCarAsync(Cars car)
         {
-            await _container.CreateItemAsync(car, new PartitionKey(car.Id));
+            await _container.CreateItemAsync(car, new PartitionKey(car.Make));
         }
 
-        public async Task DeleteCarAsync(string id)
+        public async Task DeleteCarAsync(string id, string make)
         {
-            await _container.DeleteItemAsync<Cars>(id, new PartitionKey(id));
+            await _container.DeleteItemAsync<Cars>(id, new PartitionKey(make));
         }
 
-        public async Task<Cars> GetCarAsync(string id)
+        public async Task<Cars> GetCarAsync(string id, string make)
         {
             try
             {
-                var response = await _container.ReadItemAsync<Cars>(id, new PartitionKey(id));
+                var response = await _container.ReadItemAsync<Cars>(id, new PartitionKey(make));
                 return response.Resource;
             }
             catch (CosmosException ex) when (ex.StatusCode == System.Net.HttpStatusCode.NotFound)
@@ -56,7 +56,7 @@ namespace CosmosAngularCoches.Server.Services
 
         public async Task UpdateCarAsync(string id, Cars car)
         {
-            await _container.UpsertItemAsync(car, new PartitionKey(id));
+            await _container.UpsertItemAsync(car, new PartitionKey(car.Make));
         }
     }
 }

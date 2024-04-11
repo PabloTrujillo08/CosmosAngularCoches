@@ -1,9 +1,14 @@
-﻿namespace CosmosAngularCoches.Server.Models
+﻿using Newtonsoft.Json;
+
+namespace CosmosAngularCoches.Server.Models
 {
     public class Cars
     {
-        public string Id { get; set; } = string.Empty;
-        public string Make{ get; set; } = string.Empty;
-        public string Model { get; set; } = string.Empty;
+        [JsonProperty(PropertyName = "id")]
+        public string Id { get; set; }
+        [JsonProperty(PropertyName = "make")]
+        public string Make{ get; set; }
+        [JsonProperty(PropertyName = "model")]
+        public string Model { get; set; } 
     }
 }
