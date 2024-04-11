@@ -51,8 +51,6 @@ export class AppComponent implements OnInit {
 
   save() {
     if (this.selectedItem.id) {
-
-      console.log(this.selectedItem, "selectedItem")
       this.carService.update(this.selectedItem.id, this.selectedItem).subscribe({
         next: () => {
           const index = this.items.findIndex(item => item.id === this.selectedItem.id);
@@ -64,6 +62,8 @@ export class AppComponent implements OnInit {
         error: (e) => console.error(e)
       });
     } else {
+
+      this.selectedItem.id = "0";
       this.carService.create(this.selectedItem).subscribe({
         next: (newItem) => {
           this.items.push(newItem);
