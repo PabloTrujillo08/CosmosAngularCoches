@@ -19,7 +19,7 @@ export class CarsService {
   }
  
   get(id: number): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}${id}/ford`);
+    return this.http.get<any>(`${this.baseUrl}${id}`);
   }
  
   create(data: any): Observable<any> {
